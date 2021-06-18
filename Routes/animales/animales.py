@@ -2,10 +2,29 @@ from flask import Flask, request, jsonify
 import psycopg2 as pg2
 from psycopg2.extras import RealDictCursor
 import json
+import os
+
+DATABASE = os.getenv("DATABASE")
 
 
 def get_animales():
-    return jsonify({"ok": True, "message": "Api animales funcionando"}), 200
+    print(DATABASE)
+    conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+    cursor = conn.cursor()
+    cursor.execute(''' select * from animales ''')
+
+    result = cursor.fetchall()
+
+    print(result[0]['fecha_nacimiento'])
+
+    for res in result:
+
+        res['fecha_nacimiento'] = str(res['fecha_nacimiento'])
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({"ok": True, "message": "Api animales funcionando", "result": result}), 200
 
 
 get_animales.methods = ['GET']
