@@ -62,34 +62,34 @@ get_animales.methods = ['GET']
 
 
 def post_animales():
-    # try:
-    nombre = request.json.get('nombre')
-    especie = request.json.get('especie')
-    sexo = request.json.get('sexo')
-    #foto = request.json.get('foto')
-    esterilizado = request.json.get('esterilizado')
-    raza = request.json.get('raza')
-    fecha_nacimiento = request.json.get('fecha_nacimiento')
-    color = request.json.get('color')
-    observaciones = request.json.get('observaciones')
+    try:
+        nombre = request.json.get('nombre')
+        especie = request.json.get('especie')
+        sexo = request.json.get('sexo')
+        #foto = request.json.get('foto')
+        esterilizado = request.json.get('esterilizado')
+        raza = request.json.get('raza')
+        fecha_nacimiento = request.json.get('fecha_nacimiento')
+        color = request.json.get('color')
+        observaciones = request.json.get('observaciones')
 
-    print(request.json)
+        print(request.json)
 
-    conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
-    cursor = conn.cursor()
-    cursor.execute(
-        ''' insert into animales(nombre,especie,raza,sexo,esterilizado,color,fecha_nacimiento,observaciones)
-Values(%s,%s,%s,%s,%s,%s,%s,%s) returning id_animal''', (nombre, especie, raza, sexo, esterilizado, color, fecha_nacimiento, observaciones))
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' insert into animales(nombre,especie,raza,sexo,esterilizado,color,fecha_nacimiento,observaciones)
+    Values(%s,%s,%s,%s,%s,%s,%s,%s) returning id_animal''', (nombre, especie, raza, sexo, esterilizado, color, fecha_nacimiento, observaciones))
 
-    result = cursor.fetchone()
-    conn.commit()
-    print(result)
-    cursor.close()
-    conn.close()
+        result = cursor.fetchone()
+        conn.commit()
+        print(result)
+        cursor.close()
+        conn.close()
 
-    return jsonify({"ok": True, "result": result, "message": "Post animales funcionando"}), 200
-    # except:
-    #     return jsonify({"ok": False, "message": "Post animal no funcionando"}), 400
+        return jsonify({"ok": True, "result": result, "message": "Post animales funcionando"}), 200
+    except:
+        return jsonify({"ok": False, "message": "Post animal no funcionando"}), 400
 
 
 post_animales.methods = ['POST']
