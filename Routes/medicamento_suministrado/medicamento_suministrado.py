@@ -22,6 +22,9 @@ def get_medicamento_suministrado():
         cursor.close()
         conn.close()
 
+        for res in result:
+            res['fecha'] = str(res['fecha']).split('+')[0]
+
         return jsonify({
             "id_medicamento": id_medicamento,
             "ok": True,

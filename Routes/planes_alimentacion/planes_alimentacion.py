@@ -22,6 +22,8 @@ def get_planes_alimentacion():
         cursor.close()
         conn.close()
 
+        result['fecha_inicio'] = str(result['fecha_inicio']).split('+')[0]
+
         return jsonify({
             "id_plan_alimentacion": id_plan_alimentacion,
             "ok": True,

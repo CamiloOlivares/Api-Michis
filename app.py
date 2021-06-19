@@ -5,6 +5,7 @@ from Routes.medicamentos import medicamentos
 from Routes.planes_alimentacion import planes_alimentacion
 from Routes.registros_plan_alimentacion import registro_plan_alimentacion
 from Routes.medicamento_suministrado import medicamento_suministrado
+from Routes.eventos import eventos
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -31,6 +32,11 @@ app.add_url_rule('/medicamentos_suministrados',
                  view_func=medicamento_suministrado.get_medicamento_suministrado)
 app.add_url_rule('/medicamentos_suministrados',
                  view_func=medicamento_suministrado.post_medicamento_suministrado)
+# eventos
+app.add_url_rule('/eventos_plan_alimentacion',
+                 view_func=eventos.get_eventos_plan)
+app.add_url_rule('/eventos_medicamento',
+                 view_func=eventos.get_eventos_medicacion)
 
 if __name__ == '__main__':
     #app.run(debug=True,host='192.168.0.50', port=5000)

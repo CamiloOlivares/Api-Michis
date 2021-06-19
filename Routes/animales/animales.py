@@ -47,6 +47,8 @@ def get_animal():
         cursor.close()
         conn.close()
 
+        result['fecha_nacimiento'] = str(result['fecha_nacimiento'])
+
         return jsonify({
             "idAnimal": idAnimal,
             "ok": True,

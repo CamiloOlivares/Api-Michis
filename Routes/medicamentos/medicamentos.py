@@ -6,6 +6,7 @@ import os
 
 DATABASE = os.getenv("DATABASE")
 
+
 def get_medicamento():
     try:
         id_medicamento = request.args.get('id_medicamento')
@@ -20,6 +21,9 @@ def get_medicamento():
         print(result)
         cursor.close()
         conn.close()
+
+        result['fecha_inicio'] = str(result['fecha_inicio']).split('+')[0]
+        result['fecha_termino'] = str(result['fecha_termino']).split('+')[0]
 
         return jsonify({
             "id_medicamento": id_medicamento,
