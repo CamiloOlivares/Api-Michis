@@ -39,6 +39,8 @@ app.add_url_rule('/eventos_plan_alimentacion',
                  view_func=eventos.get_eventos_plan)
 app.add_url_rule('/eventos_medicamento',
                  view_func=eventos.get_eventos_medicacion)
+app.add_url_rule('/eventos_alimentacion_animal',
+                 view_func=eventos.get_eventos_alimentacion_animal)
 # registro peso
 app.add_url_rule('/registros_peso',
                  view_func=registros_peso.get_registros_peso)
