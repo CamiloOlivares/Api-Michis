@@ -56,7 +56,7 @@ def get_registro_peso():
             res['fecha'] = str(res['fecha']).split('+')[0]
 
         return jsonify({
-            "id_medicamento": id_registro_peso,
+            "id_registro": id_registro_peso,
             "ok": True,
             "message": "Get regitro peso funcionando",
             "registros_peso":
@@ -126,3 +126,34 @@ def get_pesos_intervalo():
 
 
 post_registro_peso.methods = ['POST']
+
+
+def get_last_registro_peso():
+    try:
+        id_animal = request.args.get('id_animal')
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' select * from registros_peso where id_animal=%s order by fecha desc limit 1 ''', (id_animal,))
+
+        result = cursor.fetchone()
+
+        print(result)
+        cursor.close()
+        conn.close()
+
+        result['fecha'] = str(result['fecha']).split('+')[0]
+
+        return jsonify({
+            "id_animal": id_animal,
+            "ok": True,
+            "message": "Get last regitro peso funcionando",
+            "registro_peso":
+                result,
+        }), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e),  "message": "Get last registro peso no funcionando"}), 400
+
+
+get_last_registro_peso.methods = ['GET']

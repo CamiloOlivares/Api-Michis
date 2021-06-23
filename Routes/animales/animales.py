@@ -25,8 +25,8 @@ def get_animales():
             res['fecha_nacimiento'] = str(res['fecha_nacimiento'])
 
         return jsonify({"ok": True, "message": "Get animales funcionando", "animales": result}), 200
-    except:
-        return jsonify({"ok": False, "message": "Get animales no funcionando"}), 400
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Get animales no funcionando"}), 400
 
 
 get_animales.methods = ['GET']
@@ -56,11 +56,38 @@ def get_animal():
             "animal":
                 result,
         }), 200
-    except:
-        return jsonify({"ok": False, "message": "Get animal no funcionando"}), 400
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Get animal no funcionando"}), 400
 
 
-get_animales.methods = ['GET']
+get_animal.methods = ['GET']
+
+
+def delete_animal():
+    try:
+        idAnimal = request.args.get('id_animal')
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' delete from animales where id_animal=%s''', (idAnimal,))
+
+        #result = cursor.fetchone()
+        conn.commit()
+        # print(result)
+        cursor.close()
+        conn.close()
+
+        return jsonify({
+            "idAnimal": int(idAnimal),
+            "ok": True,
+            "message": "delete animal funcionando",
+        }), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "delete animal no funcionando"}), 400
+
+
+delete_animal.methods = ['DELETE']
 
 
 def post_animales():
@@ -90,8 +117,8 @@ def post_animales():
         conn.close()
 
         return jsonify({"ok": True, "result": result, "message": "Post animales funcionando"}), 200
-    except:
-        return jsonify({"ok": False, "message": "Post animal no funcionando"}), 400
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Post animal no funcionando"}), 400
 
 
 post_animales.methods = ['POST']

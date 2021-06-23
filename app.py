@@ -15,9 +15,13 @@ cors = CORS(app)
 # animales
 app.add_url_rule('/animales', view_func=animales.get_animales)
 app.add_url_rule('/animal', view_func=animales.get_animal)
+app.add_url_rule('/animal', view_func=animales.delete_animal)
 app.add_url_rule('/animal', view_func=animales.post_animales)
 # medicamentos
+app.add_url_rule('/medicamentos', view_func=medicamentos.get_medicamentos)
 app.add_url_rule('/medicamento', view_func=medicamentos.get_medicamento)
+app.add_url_rule('/medicamento_by_animal',
+                 view_func=medicamentos.get_medicamento_by_animal)
 app.add_url_rule('/medicamento', view_func=medicamentos.post_medicamento)
 # plan de alimentacion
 app.add_url_rule('/plan_alimentacion',
@@ -50,6 +54,8 @@ app.add_url_rule('/eventos_medicamento',
                  view_func=registros_peso.get_registro_peso)
 app.add_url_rule('/registro_peso/get_by_dates',
                  view_func=registros_peso.get_pesos_intervalo)
+app.add_url_rule('/registro_last_peso',
+                 view_func=registros_peso.get_last_registro_peso)
 
 if __name__ == '__main__':
     #app.run(debug=True,host='192.168.0.50', port=5000)

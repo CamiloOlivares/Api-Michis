@@ -32,8 +32,8 @@ def get_medicamento_suministrado():
             "medicamento":
                 result,
         }), 200
-    except:
-        return jsonify({"ok": False, "message": "Get medicamento suministrado no funcionando"}), 400
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Get medicamento suministrado no funcionando"}), 400
 
 
 get_medicamento_suministrado.methods = ['GET']
@@ -58,8 +58,8 @@ values(%s,%s,%s,%s)''', (id_cuidador, id_medicamento, observaciones, fecha))
         conn.close()
 
         return jsonify({"ok": True, "message": "Post medicamento suministrado funcionando"}), 200
-    except:
-        return jsonify({"ok": False, "message": "Post medicamento suministrado no funcionando"}), 400
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Post medicamento suministrado no funcionando"}), 400
 
 
 post_medicamento_suministrado.methods = ['POST']
