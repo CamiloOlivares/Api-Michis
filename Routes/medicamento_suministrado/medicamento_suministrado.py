@@ -49,8 +49,8 @@ def post_medicamento_suministrado():
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
-            '''  insert into medicamentos_suministrados(id_cuidador,id_medicamento,observaciones,fecha) 
-values(%s,%s,%s,%s)''', (id_cuidador, id_medicamento, observaciones, fecha))
+            '''  insert into medicamentos_suministrados(id_cuidador,id_medicamento,observaciones,fecha,cumplido) 
+values(%s,%s,%s,%s,true)''', (id_cuidador, id_medicamento, observaciones, fecha))
 
         conn.commit()
 

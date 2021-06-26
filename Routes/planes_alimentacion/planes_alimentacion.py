@@ -9,12 +9,12 @@ DATABASE = os.getenv("DATABASE")
 
 def get_planes_alimentacion():
     try:
-        id_plan_alimentacion = request.args.get('id_plan_alimentacion')
+        id_animal = request.args.get('id_animal')
 
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
-            ''' select * from planes_alimentacion where id_plan_alimentacion=%s''', id_plan_alimentacion)
+            ''' select * from planes_alimentacion where id_animal=%s''', id_animal)
 
         result = cursor.fetchone()
 
@@ -25,7 +25,7 @@ def get_planes_alimentacion():
         result['fecha_inicio'] = str(result['fecha_inicio']).split('+')[0]
 
         return jsonify({
-            "id_plan_alimentacion": id_plan_alimentacion,
+            "id_animal": id_animal,
             "ok": True,
             "message": "Get plan alimentacion funcionando",
             "medicamento":
@@ -63,9 +63,38 @@ def post_planes_alimentacion():
         cursor.close()
         conn.close()
 
-        return jsonify({"ok": True, "result": result, "message": "Post medicamento funcionando"}), 200
-    except:
-        return jsonify({"ok": False, "message": "Post medicamento no funcionando"}), 400
+        return jsonify({"ok": True, "result": result, "message": "Post plan alimentacion funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Post plan alimentacion no funcionando"}), 400
 
 
 post_planes_alimentacion.methods = ['POST']
+
+
+def get_all_planes_alimentacion():
+    try:
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' select * from planes_alimentacion''')
+
+        result = cursor.fetchall()
+
+        print(result)
+        cursor.close()
+        conn.close()
+
+        #result['fecha_inicio'] = str(result['fecha_inicio']).split('+')[0]
+
+        return jsonify({
+            "ok": True,
+            "message": "Get plan alimentacion funcionando",
+            "result":
+                result,
+        }), 200
+    except:
+        return jsonify({"ok": False, "message": "Get plan alimentacion no funcionando"}), 400
+
+
+get_all_planes_alimentacion.methods = ['GET']

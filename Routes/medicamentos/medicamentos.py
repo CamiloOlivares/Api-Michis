@@ -33,12 +33,12 @@ get_medicamentos.methods = ['GET']
 
 def get_medicamento():
     try:
-        id_medicamento = request.args.get('id_medicamento')
+        id_animal = request.args.get('id_animal')
 
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
-            ''' select * from medicamentos where id_medicamento=%s''', id_medicamento)
+            ''' select * from medicamentos where id_animal=%s''', (id_animal,))
 
         result = cursor.fetchone()
 
@@ -50,7 +50,7 @@ def get_medicamento():
         result['fecha_termino'] = str(result['fecha_termino']).split('+')[0]
 
         return jsonify({
-            "id_medicamento": id_medicamento,
+            "id_animal": id_animal,
             "ok": True,
             "message": "Get medicamento funcionando",
             "medicamento":

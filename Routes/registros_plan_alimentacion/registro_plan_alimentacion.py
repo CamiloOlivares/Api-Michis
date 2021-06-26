@@ -51,8 +51,8 @@ def post_registro_plan():
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
-            '''  insert into registros_plan_alimentacion(id_plan_alimentacion,fecha,id_cuidador,observaciones)
-    values(%s,%s,%s,%s) ''', (id_plan_alimentacion, fecha, id_cuidador, observaciones))
+            '''  insert into registros_plan_alimentacion(id_plan_alimentacion,fecha,id_cuidador,observaciones,cumplido)
+    values(%s,%s,%s,%s,true) ''', (id_plan_alimentacion, fecha, id_cuidador, observaciones))
 
         #result = cursor.fetchone()
         conn.commit()
