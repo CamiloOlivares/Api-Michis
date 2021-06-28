@@ -109,7 +109,7 @@ def get_pesos_intervalo():
                 FROM   registros_peso
                 WHERE id_animal=%s AND fecha 
                 BETWEEN %s
-                AND %s;''', (id_animal, fecha_inicio, fecha_termino))
+                AND %s order by fecha desc;''', (id_animal, fecha_inicio, fecha_termino))
         result = cursor.fetchall()
 
         conn.commit()
@@ -125,7 +125,7 @@ def get_pesos_intervalo():
         return jsonify({"ok": False, "error": str(e), "message": "Post registro peso por fecha no funcionando"}), 400
 
 
-post_registro_peso.methods = ['POST']
+get_pesos_intervalo.methods = ['POST']
 
 
 def get_last_registro_peso():
