@@ -122,3 +122,35 @@ def post_animales():
 
 
 post_animales.methods = ['POST']
+
+
+def update_animales():
+    try:
+        id_animal = request.json.get('id_animal')
+        nombre = request.json.get('nombre')
+        especie = request.json.get('especie')
+        sexo = request.json.get('sexo')
+        #foto = request.json.get('foto')
+        esterilizado = request.json.get('esterilizado')
+        raza = request.json.get('raza')
+        fecha_nacimiento = request.json.get('fecha_nacimiento')
+        color = request.json.get('color')
+        observaciones = request.json.get('observaciones')
+
+        print(request.json)
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' update animales set nombre=%s,especie=%s,raza=%s,sexo=%s,esterilizado=%s,color=%s, fecha_nacimiento=%s, observaciones=%s where id_animal=%s''', (nombre, especie, raza, sexo, esterilizado, color, fecha_nacimiento, observaciones, id_animal))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "message": "Post animales funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Post animal no funcionando"}), 400
+
+
+update_animales.methods = ['POST']

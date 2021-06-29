@@ -19,6 +19,7 @@ app.add_url_rule('/animales', view_func=animales.get_animales)
 app.add_url_rule('/animal', view_func=animales.get_animal)
 app.add_url_rule('/animal', view_func=animales.delete_animal)
 app.add_url_rule('/animal', view_func=animales.post_animales)
+app.add_url_rule('/actualizar_animal', view_func=animales.update_animales)
 # medicamentos
 app.add_url_rule('/medicamentos', view_func=medicamentos.get_medicamentos)
 app.add_url_rule('/medicamento', view_func=medicamentos.get_medicamento)
