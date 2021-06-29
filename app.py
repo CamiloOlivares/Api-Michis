@@ -80,6 +80,8 @@ app.add_url_rule('/asigna_animal_cuidador',
                  view_func=animal_cuidador.asign_animal_cuidador)
 app.add_url_rule('/get_cuidadores_animal',
                  view_func=animal_cuidador.get_cuidadores_animal)
+app.add_url_rule('/delete_relacion_animal_cuidador',
+                 view_func=animal_cuidador.delete_relacion_animal_cuidador)
 
 if __name__ == '__main__':
     #app.run(debug=True,host='192.168.0.50', port=5000)

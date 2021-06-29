@@ -104,3 +104,27 @@ where Cuidadores.id_cuidador=Animal_Cuidador.id_cuidador and Animal_Cuidador.id_
 
 
 get_cuidadores_animal.methods = ['GET']
+
+
+def delete_relacion_animal_cuidador():
+    try:
+        id_animal = request.json.get('id_animal')
+        id_cuidador = request.json.get('id_cuidador')
+
+        print(request.json)
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' delete from Animal_cuidador where id_animal=%s and id_cuidador=%s''', (id_animal, id_cuidador))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "message": "Delete relacion cuidador animal funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Delete relacion cuidador animal no funcionando"}), 400
+
+
+delete_relacion_animal_cuidador.methods = ['POST']
