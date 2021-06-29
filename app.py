@@ -49,6 +49,10 @@ app.add_url_rule('/eventos_medicamento',
                  view_func=eventos.get_eventos_medicacion)
 app.add_url_rule('/eventos_alimentacion_animal',
                  view_func=eventos.get_eventos_alimentacion_animal)
+app.add_url_rule('/eventos_medicacion_animal',
+                 view_func=eventos.get_eventos_medicacion_animal)
+app.add_url_rule('/eventos',
+                 view_func=eventos.get_todos_eventos_animal)
 # registro peso
 app.add_url_rule('/registros_peso',
                  view_func=registros_peso.get_registros_peso)
@@ -74,6 +78,8 @@ app.add_url_rule('/animal_cuidador',
                  view_func=animal_cuidador.post_animales_cuidador)
 app.add_url_rule('/asigna_animal_cuidador',
                  view_func=animal_cuidador.asign_animal_cuidador)
+app.add_url_rule('/get_cuidadores_animal',
+                 view_func=animal_cuidador.get_cuidadores_animal)
 
 if __name__ == '__main__':
     #app.run(debug=True,host='192.168.0.50', port=5000)

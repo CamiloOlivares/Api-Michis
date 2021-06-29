@@ -73,3 +73,34 @@ def asign_animal_cuidador():
 
 
 asign_animal_cuidador.methods = ['POST']
+
+
+def get_cuidadores_animal():
+    try:
+        id_animal = request.args.get('id_animal')
+
+        print(request.json)
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' select *
+from Cuidadores, Animal_Cuidador
+where Cuidadores.id_cuidador=Animal_Cuidador.id_cuidador and Animal_Cuidador.id_animal=%s''', (id_animal,))
+
+        result = cursor.fetchall()
+
+        #id_animal = result['id_animal']
+        # print(result)
+        for res in result:
+            res['fecha_ingreso'] = str(res['fecha_ingreso']).split('+')[0]
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "result": result, "message": "Get cuidadores animal funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Get cuidadores animal no funcionando"}), 400
+
+
+get_cuidadores_animal.methods = ['GET']

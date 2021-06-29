@@ -1,3 +1,4 @@
+import re
 from flask import Flask, request, jsonify
 import psycopg2 as pg2
 from psycopg2.extras import RealDictCursor
@@ -135,7 +136,6 @@ def get_eventos_alimentacion_animal():
             ''' select * from fn_get_eventos_alimentacion(%s)''', (id_animal,))
 
         result = cursor.fetchall()
-        conn.commit()
 
         cursor.close()
         conn.close()
@@ -146,3 +146,59 @@ def get_eventos_alimentacion_animal():
 
 
 get_eventos_alimentacion_animal.methods = ['GET']
+
+
+def get_eventos_medicacion_animal():
+    try:
+        id_animal = request.args.get('id_animal')
+        print(request.json)
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' select * from FN_GET_EVENTOS_MEDICACION(%s)''', (id_animal,))
+
+        result = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "result": result, "message": "Get evento medicacion animal funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False,  "error": str(e), "message": "Post evento medicacion animal no funcionando"}), 400
+
+
+get_eventos_medicacion_animal.methods = ['GET']
+
+
+def get_todos_eventos_animal():
+    try:
+        id_animal = request.args.get('id_animal')
+        print(request.json)
+
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' select * from FN_GET_EVENTOS_MEDICACION(%s)''', (id_animal,))
+
+        result = cursor.fetchall()
+
+        cursor.execute(
+            ''' select * from fn_get_eventos_alimentacion(%s)''', (id_animal,))
+
+        result2 = cursor.fetchall()
+
+        hola = []
+
+        for res in result2:
+            result.append(res)
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "result": result, "message": "Get eventos animal funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False,  "error": str(e), "message": "Post eventos animal no funcionando"}), 400
+
+
+get_todos_eventos_animal.methods = ['GET']
