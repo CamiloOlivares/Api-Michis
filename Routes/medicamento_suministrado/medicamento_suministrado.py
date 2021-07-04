@@ -45,12 +45,13 @@ def post_medicamento_suministrado():
         id_medicamento = request.json.get('id_medicamento')
         observaciones = request.json.get('observaciones')
         fecha = request.json.get('fecha')
+        cumplido = request.json.get('cumplido')
 
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
             '''  insert into medicamentos_suministrados(id_cuidador,id_medicamento,observaciones,fecha,cumplido) 
-values(%s,%s,%s,%s,true)''', (id_cuidador, id_medicamento, observaciones, fecha))
+values(%s,%s,%s,%s,%s)''', (id_cuidador, id_medicamento, observaciones, fecha, cumplido))
 
         conn.commit()
 
