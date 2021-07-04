@@ -136,7 +136,7 @@ def get_eventos_alimentacion_animal():
             ''' select * from fn_get_eventos_alimentacion(%s)''', (id_animal,))
 
         result = cursor.fetchall()
-
+       
         cursor.close()
         conn.close()
 
@@ -152,6 +152,7 @@ def get_eventos_medicacion_animal():
     try:
         id_animal = request.args.get('id_animal')
         print(request.json)
+        print(id_animal)
 
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
@@ -159,8 +160,9 @@ def get_eventos_medicacion_animal():
             ''' select * from FN_GET_EVENTOS_MEDICACION(%s)''', (id_animal,))
 
         result = cursor.fetchall()
-
+       
         cursor.close()
+        conn.commit()
         conn.close()
 
         return jsonify({"ok": True, "result": result, "message": "Get evento medicacion animal funcionando"}), 200

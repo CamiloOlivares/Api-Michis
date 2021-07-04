@@ -54,6 +54,7 @@ app.add_url_rule('/eventos_medicacion_animal',
                  view_func=eventos.get_eventos_medicacion_animal)
 app.add_url_rule('/eventos',
                  view_func=eventos.get_todos_eventos_animal)
+
 # registro peso
 app.add_url_rule('/registros_peso',
                  view_func=registros_peso.get_registros_peso)
@@ -74,6 +75,8 @@ app.add_url_rule('/login',
                  view_func=cuidadores.get_cuidador_login)
 app.add_url_rule('/cuidador',
                  view_func=cuidadores.delete_cuidador)
+app.add_url_rule('/linea_temporal_cuidador',
+                 view_func=cuidadores.get_cuidador_linea_temporal)
 # animal cuidador
 app.add_url_rule('/animal_cuidador',
                  view_func=animal_cuidador.post_animales_cuidador)
