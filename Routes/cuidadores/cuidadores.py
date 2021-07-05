@@ -3,6 +3,7 @@ import psycopg2 as pg2
 from psycopg2.extras import RealDictCursor
 import json
 import os
+from datetime import datetime
 
 DATABASE = os.getenv("DATABASE")
 
@@ -108,10 +109,16 @@ def get_cuidador_linea_temporal():
                     }) 
             cursor.close()
             conn.close()
-    
+            #print(eventillos)
             eventillos.sort(key = lambda x:x["fecha"])
-
-            return jsonify({"ok": True, "message": "Get linea temporal de cuidador funcionando", "result": eventillos}), 200
+            def removeduplicate(it):
+                seen = []
+                for x in it:
+                    if x not in seen:
+                        yield x
+                        seen.append(x)
+         
+            return jsonify({"ok": True, "message": "Get linea temporal de cuidador funcionando", "result": list(removeduplicate(eventillos))}), 200
         else:
             return Exception("No se encuentra el usuario")
     except Exception as e:
