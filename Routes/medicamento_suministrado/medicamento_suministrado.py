@@ -46,12 +46,14 @@ def post_medicamento_suministrado():
         observaciones = request.json.get('observaciones')
         fecha = request.json.get('fecha')
         cumplido = request.json.get('cumplido')
+        nombre_cuidador = request.json.get('nombre_cuidador')
 
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
-            '''  insert into medicamentos_suministrados(id_cuidador,id_medicamento,observaciones,fecha,cumplido) 
-values(%s,%s,%s,%s,%s)''', (id_cuidador, id_medicamento, observaciones, fecha, cumplido))
+            '''  insert into medicamentos_suministrados(id_cuidador,id_medicamento,observaciones,fecha,cumplido,nombre_cuidador) 
+values(%s,%s,%s,%s,%s,%s)  ON CONFLICT(id_medicamento,fecha) DO UPDATE SET 
+    (id_cuidador,observaciones,cumplido,nombre_cuidador) = (EXCLUDED.id_cuidador, EXCLUDED.observaciones, EXCLUDED.cumplido, EXCLUDED.nombre_cuidador);''', (id_cuidador, id_medicamento, observaciones, fecha, cumplido,nombre_cuidador))
 
         conn.commit()
 

@@ -110,7 +110,8 @@ def get_cuidador_linea_temporal():
                             "dosis":el['dosis'],
                             "fecha": ev['fecha'],
                             "cumplido": ev['cumplido'],
-                            "observaciones": ev['observaciones']
+                            "observaciones": ev['observaciones'],
+                            "nombre_cuidador": ev['nombre_cuidador']
                         }) 
             cursor.close()
             conn.close()
