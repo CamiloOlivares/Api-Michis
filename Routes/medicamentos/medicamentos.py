@@ -126,3 +126,24 @@ values(%s,%s,%s,%s,%s,%s,%s) returning id_medicamento''', (id_animal, fecha_inic
 
 
 post_medicamento.methods = ['POST']
+
+
+def delete_medicamento():
+    try:
+        id_medicamento = request.json.get('id_medicamento')
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' delete from medicamentos where id_medicamento=%s''', (id_medicamento,))
+        conn.commit()
+
+        # print(result[0]['fecha_nacimiento'])
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "message": "Delete medicamentos funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Delete medicamentos no funcionando"}), 400
+
+
+delete_medicamento.methods = ['DELETE']

@@ -26,6 +26,8 @@ app.add_url_rule('/medicamento', view_func=medicamentos.get_medicamento)
 app.add_url_rule('/medicamento_by_animal',
                  view_func=medicamentos.get_medicamento_by_animal)
 app.add_url_rule('/medicamento', view_func=medicamentos.post_medicamento)
+app.add_url_rule('/delete_medicamento',
+                 view_func=medicamentos.delete_medicamento)
 # plan de alimentacion
 app.add_url_rule('/planes_alimentacion',
                  view_func=planes_alimentacion.get_all_planes_alimentacion)
@@ -33,6 +35,11 @@ app.add_url_rule('/plan_alimentacion',
                  view_func=planes_alimentacion.get_planes_alimentacion)
 app.add_url_rule('/plan_alimentacion',
                  view_func=planes_alimentacion.post_planes_alimentacion)
+app.add_url_rule('/plan_alimentacion',
+                 view_func=planes_alimentacion.post_planes_alimentacion)
+app.add_url_rule('/delete_plan_alimentacion',
+                 view_func=planes_alimentacion.delete_plan_alimentacion)
+#delete_plan_alimentacion
 # registro plan alimentacion
 app.add_url_rule('/registro_plan_alimentacion',
                  view_func=registro_plan_alimentacion.get_registro_plan)

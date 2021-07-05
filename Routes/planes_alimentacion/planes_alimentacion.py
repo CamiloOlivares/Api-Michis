@@ -98,3 +98,24 @@ def get_all_planes_alimentacion():
 
 
 get_all_planes_alimentacion.methods = ['GET']
+
+
+def delete_plan_alimentacion():
+    try:
+        id_plan_alimentacion = request.json.get('id_plan_alimentacion')
+        conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
+        cursor = conn.cursor()
+        cursor.execute(
+            ''' delete from planes_alimentacion where id_plan_alimentacion=%s''', (id_plan_alimentacion,))
+        conn.commit()
+
+        # print(result[0]['fecha_nacimiento'])
+        cursor.close()
+        conn.close()
+
+        return jsonify({"ok": True, "message": "Delete planes_alimentacion funcionando"}), 200
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "message": "Delete planes_alimentacion no funcionando"}), 400
+
+
+delete_plan_alimentacion.methods = ['DELETE']
