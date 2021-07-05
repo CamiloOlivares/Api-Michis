@@ -46,13 +46,15 @@ def post_registro_plan():
         id_cuidador = request.json.get('id_cuidador')
         observaciones = request.json.get('observaciones')
         cumplido = request.json.get('cumplido')
+        nombre_cuidador = request.json.get('nombre_cuidador')
         print(request.json)
 
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
-            '''  insert into registros_plan_alimentacion(id_plan_alimentacion,fecha,id_cuidador,observaciones,cumplido)
-    values(%s,%s,%s,%s,%s) ''', (id_plan_alimentacion, fecha, id_cuidador, observaciones, cumplido))
+            '''  insert into registros_plan_alimentacion(id_plan_alimentacion,fecha,id_cuidador,observaciones,cumplido,nombre_cuidador)
+    values(%s,%s,%s,%s,%s,%s) ON CONFLICT(id_plan_alimentacion,fecha) DO UPDATE SET 
+    (id_cuidador,observaciones,cumplido,nombre_cuidador) = (EXCLUDED.id_cuidador, EXCLUDED.observaciones, EXCLUDED.cumplido, EXCLUDED.nombre_cuidador);''', (id_plan_alimentacion, fecha, id_cuidador, observaciones, cumplido,nombre_cuidador))
 
         #result = cursor.fetchone()
         conn.commit()

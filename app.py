@@ -36,11 +36,14 @@ app.add_url_rule('/plan_alimentacion',
 # registro plan alimentacion
 app.add_url_rule('/registro_plan_alimentacion',
                  view_func=registro_plan_alimentacion.get_registro_plan)
+                 #cambiar el post nombre_cuidador
 app.add_url_rule('/registro_plan_alimentacion',
                  view_func=registro_plan_alimentacion.post_registro_plan)
 # medicamentos suministrados
 app.add_url_rule('/medicamentos_suministrados',
                  view_func=medicamento_suministrado.get_medicamento_suministrado)
+
+                 #cambiar el post
 app.add_url_rule('/medicamentos_suministrados',
                  view_func=medicamento_suministrado.post_medicamento_suministrado)
 # eventos
