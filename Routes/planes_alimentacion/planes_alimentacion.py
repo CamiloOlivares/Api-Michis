@@ -101,7 +101,7 @@ get_all_planes_alimentacion.methods = ['GET']
 
 def delete_plan_alimentacion():
     try:
-        id_plan_alimentacion = request.json.get('id_plan_alimentacion')
+        id_plan_alimentacion = request.args.get('id_plan_alimentacion')
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(

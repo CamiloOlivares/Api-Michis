@@ -130,7 +130,7 @@ post_medicamento.methods = ['POST']
 
 def delete_medicamento():
     try:
-        id_medicamento = request.json.get('id_medicamento')
+        id_medicamento = request.args.get('id_medicamento')
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
