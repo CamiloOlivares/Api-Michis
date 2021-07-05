@@ -3,7 +3,7 @@ import psycopg2 as pg2
 from psycopg2.extras import RealDictCursor
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 DATABASE = os.getenv("DATABASE")
 
@@ -90,23 +90,28 @@ def get_cuidador_linea_temporal():
         cursor = conn.cursor()
         cursor.execute(
             ''' select * from FN_GET_LINEA_TEMPORAL_CUIDADOR(%s)''', (id_cuidador,))
+       
+        now = datetime.now() # current date and time
+        lim_inf = (datetime.now() - timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%S+00:00") 
+        lim_sup = (datetime.now() + timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%S+00:00")
 
         result = cursor.fetchall()
         if result:
             eventillos = []
             for el in result:
                 for ev in el['eventos']:
-                    eventillos.append({ 
-                        "id_animal":el['id_animal'],
-                        "nombre_animal":el['nombre_animal'],
-                        "tipo_evento":el['tipo_evento'],
-                        "id_plan":el['id'],
-                        "nombre_plan": el['nombre'],
-                        "dosis":el['dosis'],
-                        "fecha": ev['fecha'],
-                        "cumplido": ev['cumplido'],
-                        "observaciones": ev['observaciones']
-                    }) 
+                    if(ev['fecha'] > lim_inf and ev['fecha']< lim_sup):
+                        eventillos.append({ 
+                            "id_animal":el['id_animal'],
+                            "nombre_animal":el['nombre_animal'],
+                            "tipo_evento":el['tipo_evento'],
+                            "id_plan":el['id'],
+                            "nombre_plan": el['nombre'],
+                            "dosis":el['dosis'],
+                            "fecha": ev['fecha'],
+                            "cumplido": ev['cumplido'],
+                            "observaciones": ev['observaciones']
+                        }) 
             cursor.close()
             conn.close()
             #print(eventillos)
