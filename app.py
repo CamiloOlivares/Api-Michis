@@ -36,7 +36,7 @@ app.add_url_rule('/plan_alimentacion',
 app.add_url_rule('/plan_alimentacion',
                  view_func=planes_alimentacion.post_planes_alimentacion)
 app.add_url_rule('/plan_alimentacion',
-                 view_func=planes_alimentacion.post_planes_alimentacion)
+                 view_func=planes_alimentacion.delete_plan_alimentacion)
 app.add_url_rule('/delete_plan_alimentacion',
                  view_func=planes_alimentacion.delete_plan_alimentacion)
 #delete_plan_alimentacion
