@@ -80,7 +80,8 @@ def post_registro_peso():
         cursor = conn.cursor()
         cursor.execute(
             '''  insert into registros_peso(id_animal,fecha,peso,observaciones) 
-values(%s,%s,%s,%s)''', (id_animal, fecha, peso, observaciones))
+values(%s,%s,%s,%s) ON CONFLICT(id_animal,fecha) DO UPDATE SET 
+    (peso,observaciones) = (EXCLUDED.peso, EXCLUDED.observaciones);''', (id_animal, fecha, peso, observaciones))
 
         conn.commit()
 
