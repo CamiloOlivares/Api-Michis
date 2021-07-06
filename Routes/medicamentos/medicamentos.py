@@ -40,20 +40,20 @@ def get_medicamento():
         cursor.execute(
             ''' select * from medicamentos where id_animal=%s''', (id_animal,))
 
-        result = cursor.fetchone()
+        result = cursor.fetchall()
 
-        print(result)
         cursor.close()
         conn.close()
 
-        result['fecha_inicio'] = str(result['fecha_inicio']).split('+')[0]
-        result['fecha_termino'] = str(result['fecha_termino']).split('+')[0]
+        for res in result:
+            res['fecha_inicio'] = str(res['fecha_inicio']).split('+')[0]
+            res['fecha_termino'] = str(res['fecha_termino']).split('+')[0]
 
         return jsonify({
             "id_animal": id_animal,
             "ok": True,
             "message": "Get medicamento funcionando",
-            "medicamento":
+            "medicamentos":
                 result,
         }), 200
     except Exception as e:
@@ -130,7 +130,7 @@ post_medicamento.methods = ['POST']
 
 def delete_medicamento():
     try:
-        id_medicamento = request.json.get('id_medicamento')
+        id_medicamento = request.args.get('id_medicamento')
         conn = pg2.connect(DATABASE, cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         cursor.execute(
